@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Crunch Time</string>
+    <string name="action_settings">Settings</string>
+    <string name="RadioBtnMin">Minutes</string>
+    <string name="RadioBtnReps">Reps</string>
+    <string name="ExerciseText">Exercise</string>
+    <string name="AmountText">Amount of Work</string>
+    <string name="unitsText">Reps/Mins</string>
+    <string name="convertBtnText">Convert!</string>
+    <string name="numCalText">0</string>
+    <string name="unitCal">cal</string>
+    <string-array name="excercise_array">
+        <item>Pushup</item>
+        <item>Situp</item>
+        <item>Squats</item>
+        <item>Leg-lift</item>
+        <item>Plank</item>
+        <item>Jumping Jacks</item>
+        <item>Pullup</item>
+        <item>Cycling</item>
+        <item>Walking</item>
+        <item>Jogging</item>
+        <item>Swimming</item>
+        <item>Stair-Climbing</item>
+    </string-array>
+</resources>

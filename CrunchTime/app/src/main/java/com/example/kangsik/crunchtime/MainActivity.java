@@ -1,24 +1,18 @@
 package com.example.kangsik.crunchtime;
 
 import java.util.*;
-import static java.lang.System.out;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import android.view.MotionEvent;
-import android.view.GestureDetector;
 import android.support.v4.view.GestureDetectorCompat;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -27,7 +21,6 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -56,11 +49,12 @@ public class MainActivity extends AppCompatActivity{
 
 
     public static boolean inMinutes;
-    private EditText inputCalTxt;
+    private EditText inputTxt;
     public static int inputInt =0;
-    public static double convertedCal = 0;
+    public static double convertedOutput = 0;
     public static String selectedExType = "";
     public static String[] rows = new String[12];
+    public static boolean calSelected = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,30 +86,51 @@ public class MainActivity extends AppCompatActivity{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getBaseContext(), parent.getItemAtPosition(position)+ " selected", Toast.LENGTH_LONG).show();
                 TextView unitText = (TextView) findViewById(R.id.unitText);
-                unitText.setText(unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps");
+                if(!calSelected){
+                    unitText.setText(unitsTable.get(spinner.getSelectedItem().toString()) ? "mins" : "reps");
+                }else{
+                    unitText.setText("cal");
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        /*radio Button
+        /*radio Button*/
         radioG = (RadioGroup) findViewById(R.id.radioG);
+        radioRm = (RadioButton) findViewById(R.id.radioRm);
+        final TextView unitText = (TextView) findViewById(R.id.unitText);
+        final TextView unitText2 = (TextView) findViewById(R.id.unitText2);
 
         radioRm.setOnClickListener(
+
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        TextView unitText = (TextView) findViewById(R.id.unitText);
-                        unitText.setText("cal");
 
+                        unitText.setText(unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps");
+                        unitText2.setText("cal");
+                        calSelected = false;
                     }
                 }
+        );
+        radioCal = (RadioButton) findViewById(R.id.radioCal);
+        radioCal.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
 
+
+                        unitText.setText("cal");
+                        unitText2.setText(unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps");
+                        calSelected = true;
+
+                                        }
+                                    }
         );
         int selected_id = radioG.getCheckedRadioButtonId();
 
 
-*/
 
 
 
@@ -129,33 +144,48 @@ public class MainActivity extends AppCompatActivity{
         convertBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        TextView caloriesText = (TextView) findViewById(R.id.caloriesText);
+                        TextView outputText = (TextView) findViewById(R.id.outputText);
 
                         selectedExType = spinner.getSelectedItem().toString();
-                        inputCalTxt = (EditText) findViewById(R.id.userInput);
-                        inputInt = Integer.parseInt(inputCalTxt.getText().toString());
+                        inputTxt = (EditText) findViewById(R.id.userInput);
+                        inputInt = Integer.parseInt(inputTxt.getText().toString());
+                        int measurement =0;
 
-                        convertedCal = convertToCal(selectedExType, inputInt);
-                        caloriesText.setText(' ' + Integer.toString((int) convertedCal));
-
-                        //Creating list for other excercises
-
-                        StringBuffer rowBuffer = new StringBuffer();
-                        for (int j = 0; j < exerciseList.length; j++) {
-                            String type = exerciseList[j];
-                            int work = (int) convertToWork(type, convertedCal);
-                            //if conversionRate is less than 1, the unit must be in minutes
-                            rowBuffer.append(exerciseList[j]);
-                            rowBuffer.append(' ');
-                            rowBuffer.append(work);
-                            if (unitsTable.get(type)) {
-                                rowBuffer.append(" mins");
-                            } else {
-                                rowBuffer.append(" reps");
-                            }
-                            rows[j] = rowBuffer.toString();
-                            rowBuffer.setLength(0);
+                        if(!calSelected) {
+                            convertedOutput = convertToCal(selectedExType, inputInt);
+                            Toast.makeText(getBaseContext(), "Converted To cal", Toast.LENGTH_LONG).show();
+                            unitText2.setText("cal");
+                        }else{
+                            convertedOutput = convertToWork(selectedExType, inputInt);
+                            String unit = unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps";
+                            Toast.makeText(getBaseContext(), "Converted To "+ unit, Toast.LENGTH_LONG).show();
+                            unitText2.setText(unit);
                         }
+                        outputText.setText(' ' + Integer.toString((int) convertedOutput));
+                            //Creating list for other excercises
+
+                            StringBuffer rowBuffer = new StringBuffer();
+                            for (int j = 0; j < exerciseList.length; j++) {
+                                //if conversionRate is less than 1, the unit must be in minutes
+                                rowBuffer.append(exerciseList[j]);
+                                rowBuffer.append(' ');
+                                if(!calSelected){
+                                    measurement = (int) convertToWork(exerciseList[j], convertedOutput);
+                                }else{
+                                    measurement = (int) convertToWork(exerciseList[j], inputInt);
+                                }
+                                rowBuffer.append(measurement);
+
+                                if (unitsTable.get(exerciseList[j])) {
+                                    rowBuffer.append(" mins");
+                                } else {
+                                    rowBuffer.append(" reps");
+                                }
+
+                                rows[j] = rowBuffer.toString();
+                                rowBuffer.setLength(0);
+                            }
+
                     }
                 }
 
@@ -191,21 +221,22 @@ public class MainActivity extends AppCompatActivity{
                         .setAction("Action", null).show();
             }
         });
-    }
+    }//onCreate
 
-    public double convertToCal(String type, int amountOfWork){
+    public double convertToCal(String type, double amountOfWork){
         double rate = conversionTable.get(type);
         double cal = amountOfWork*rate;
         return cal;
 
 
-    };
+    }
 
     public double convertToWork(String type, double cal){
         double rate = conversionTable.get(type);
 
         return cal/rate;
-        };
+
+    }
 
 
     public void onClickListenerButton() {

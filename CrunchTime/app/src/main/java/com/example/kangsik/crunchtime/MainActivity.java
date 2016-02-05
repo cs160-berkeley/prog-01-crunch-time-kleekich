@@ -31,7 +31,7 @@ import android.widget.RadioGroup;
 
 public class MainActivity extends AppCompatActivity{
 
-  
+
 
     private GestureDetectorCompat gestureDetector;
 

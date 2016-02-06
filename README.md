@@ -30,7 +30,7 @@ See [your demo video title here] (https://link_to_your_video)
 
 <img src="screenshots/switch.png" height="400" alt="Screenshot"/>
 
-######4. Push**CONVERT!** button.
+######4. Push **CONVERT!** button.
 
 <img src="screenshots/convert.png" height="400" alt="Screenshot"/>
 
@@ -39,5 +39,4 @@ See [your demo video title here] (https://link_to_your_video)
 ######6. Check other equivalent amount of work you can excercise on the right.
 
 <img src="screenshots/output1.png" height="400" alt="Screenshot"/>
-
 <img src="screenshots/output2.png" height="400" alt="Screenshot"/>

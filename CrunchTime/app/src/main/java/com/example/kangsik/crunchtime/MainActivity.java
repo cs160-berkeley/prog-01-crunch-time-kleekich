@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity{
                                         measurement = (int) convertToWork(exerciseList[j], convertedOutput);
                                     } else {
                                         measurement = (int) convertToWork(exerciseList[j], inputInt);
-                                    }
+                                    } 
                                     rowBuffer.append(measurement);
 
                                     if (unitsTable.get(exerciseList[j])) {

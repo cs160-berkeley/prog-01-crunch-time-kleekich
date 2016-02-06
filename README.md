@@ -17,16 +17,27 @@ See [your demo video title here] (https://link_to_your_video)
 ## Description
 
 1. Choose a type of exercise you have done or you want to do
+
 <img src="screenshots/dropdown.png" height="400" alt="Screenshot"/>
+
 2. 
 - Put amount of work you have done or
 - Put amount of calories you want to burn
+
 <img src="screenshots/input.png" height="400" alt="Screenshot"/>
+
 3. If you want to know how much work you have to do, switch to calories mode. 
+
 <img src="screenshots/switch.png" height="400" alt="Screenshot"/>
+
 4. Push *CONVERT!* button.
+
 <img src="screenshots/convert.png" height="400" alt="Screenshot"/>
+
 5. Check Calories under *CONVERT!* button on the left. 
+
 6. Check other equivalent amount of work you can excercise on the right.
+
 <img src="screenshots/output1.png" height="400" alt="Screenshot"/>
+
 <img src="screenshots/output2.png" height="400" alt="Screenshot"/>

@@ -4,11 +4,11 @@ Crunch Time motivates you to exercise in different ways. It helps you to achieve
 
 ## Authors
 
-Kangsik Kevin Lee ([kleekich@berkeley.edu](mailto:your_email@berkeley.edu))
+Kangsik Kevin Lee ([kleekich@berkeley.edu](mailto:kleekich@berkeley.edu))
 
 ## Demo Video
 
-See [https://youtu.be/MJcAVJG62UY] (https://link_to_your_video)
+See [Crunch Time Demo] (https://youtu.be/MJcAVJG62UY)
 
 ## Screenshots
 

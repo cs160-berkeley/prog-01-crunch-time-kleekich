@@ -1,10 +1,10 @@
 # PROG 01: Crunch Time
 
-Briefly describe your app here.
+Crunch Time motivates you to exercise in different ways. It provides you how much calories you have burned after some exercise. It also provides a list of other exercises with equivalent amount of work calculated based on calories. You can also check how many reps or how much minutes to achieve burning your target calories.
 
 ## Authors
 
-FirstName LastName ([your_email@berkeley.edu](mailto:your_email@berkeley.edu))
+FirstName LastName ([kleekich@berkeley.edu](mailto:your_email@berkeley.edu))
 
 ## Demo Video
 

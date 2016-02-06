@@ -10,6 +10,7 @@
         android:text="Large Text"
         android:id="@+id/exerciseName"
         android:layout_margin="5dp"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>

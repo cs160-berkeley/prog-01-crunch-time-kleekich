@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import android.support.v4.view.GestureDetectorCompat;
@@ -26,6 +27,8 @@ import android.widget.Switch;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import android.graphics.*;
+
 public class MainActivity extends AppCompatActivity{
 
 
@@ -40,16 +43,46 @@ public class MainActivity extends AppCompatActivity{
 
     public static boolean[] unitInMin = {false,false,false,true,true,true,false,true,true,true,true,true};
 
+    public static String[] quotes = {
+            "Energy and persistence \n" +
+                    "conquer all things.\n" +
+                    "-Benjamin Franklin",
+            "Motivation is what gets \n" + "you started. Habit is \n" +
+                    "what keeps you going.\n" +
+                    "-Jim Ryan",
+            "The difference between \n" +
+                    "a goal and a dream \n" +
+                    "is a deadline.\n" +
+                    "-Steve Smith ",
+            "The secret of getting \n" +
+                    "ahead is getting started. \n" +
+                    "-Mark Twain ",
+            "It's never too late \n" +
+                    "to become what you \n" +
+                    "might have been.\n" +
+                    "-George Eliot ",
+            "Clear your mind of can’t.\n" +
+                    "-Samuel Johnson",
+            "Just do it.™ -Nike",
+            "Luck is a matter of \n" +
+                    "preparation meeting opportunity. \n" +
+                    "-Oprah Winfrey ",
+            "Fear is what stops you...\n" +
+                    " courages is what keeps you going. \n" +
+                    "-Unknown\n"
+
+
+
+
+};
+
     public static Hashtable<String, Double> conversionTable = new Hashtable<String, Double>();
 
     public static Hashtable<String, Boolean> unitsTable = new Hashtable<String, Boolean>();
 
     /*radio group*/
-    private static RadioGroup radioG;
-    private static RadioButton radioRm,radioCal;
-    private TextView switchStatus;
     private Switch mySwitch;
-
+    private static RelativeLayout background;
 
 
 
@@ -61,11 +94,15 @@ public class MainActivity extends AppCompatActivity{
     public static String selectedExType = "";
     public static String[] rows = new String[12];
     public static boolean calSelected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        background = (RelativeLayout) findViewById(R.id.background);
+        background.setBackgroundColor(Color.rgb(72,168,144));
+        final TextView quoteText = (TextView) findViewById(R.id.quoteText);
+        quoteText.setText(quotes[0]);
 
 
         //HashTable for exercise and conversionRate
@@ -82,6 +119,8 @@ public class MainActivity extends AppCompatActivity{
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.excercise_array, android.R.layout.simple_spinner_item);
+
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -90,6 +129,9 @@ public class MainActivity extends AppCompatActivity{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                ((TextView) parent.getChildAt(0)).setTextSize(18);
+
                 Toast.makeText(getBaseContext(), parent.getItemAtPosition(position)+ " selected", Toast.LENGTH_LONG).show();
                 TextView unitText = (TextView) findViewById(R.id.unitText);
                 if(!calSelected){
@@ -125,12 +167,14 @@ public class MainActivity extends AppCompatActivity{
                     unitText2.setText(unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps");
                     calSelected = true;
                     Toast.makeText(getBaseContext(), "Switch to Calories", Toast.LENGTH_LONG).show();
+                    background.setBackgroundColor(Color.rgb(204,102,119));
                 }else{
                     unitText.setText(unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps");
                     unitText2.setText("cal");
                     calSelected = false;
                     String unit = unitsTable.get(spinner.getSelectedItem().toString())? "mins": "reps";
                     Toast.makeText(getBaseContext(), "Switch to "+ unit, Toast.LENGTH_LONG).show();
+                    background.setBackgroundColor(Color.rgb(72,168,144));
                 }
 
             }
@@ -155,11 +199,17 @@ public class MainActivity extends AppCompatActivity{
 
 
 /*Convert Button*/
-                Button convertBtn = (Button) findViewById(R.id.convertBtn);
 
+                Button convertBtn = (Button) findViewById(R.id.convertBtn);
+                convertBtn.getBackground().setColorFilter(0xFFFFFF, PorterDuff.Mode.MULTIPLY);
                 convertBtn.setOnClickListener(
                         new Button.OnClickListener() {
                             public void onClick(View v) {
+
+                                Random rn = new Random();
+                                int rand =rn.nextInt(5 - 0 + 1);
+                                quoteText.setText(quotes[rand]);
+
                                 TextView outputText = (TextView) findViewById(R.id.outputText);
 
                                 selectedExType = spinner.getSelectedItem().toString();
@@ -169,12 +219,12 @@ public class MainActivity extends AppCompatActivity{
 
                                 if (!calSelected) {
                                     convertedOutput = convertToCal(selectedExType, inputInt);
-                                    Toast.makeText(getBaseContext(), "Converted To cal", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), "converted to calories", Toast.LENGTH_LONG).show();
                                     unitText2.setText("cal");
                                 } else {
                                     convertedOutput = convertToWork(selectedExType, inputInt);
                                     String unit = unitsTable.get(spinner.getSelectedItem().toString()) ? "mins" : "reps";
-                                    Toast.makeText(getBaseContext(), "Converted To " + unit, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), "converted to " + unit, Toast.LENGTH_LONG).show();
                                     unitText2.setText(unit);
                                 }
                                 outputText.setText(' ' + Integer.toString((int) convertedOutput));
